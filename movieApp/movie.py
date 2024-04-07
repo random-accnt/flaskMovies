@@ -38,7 +38,7 @@ def single_movie(movie_id):
 def add():
     if request.method == "POST":
         title = request.form["title"]
-        rating = request.form["rating"]
+        rating = request.form["option-rating"]
         description = request.form["description"]
         image = None
 
@@ -51,6 +51,12 @@ def add():
             rating = -1
         else:
             rating = int(rating)
+
+        # make sure value is in range [-1, 5]
+        if rating > 5:
+            rating = 5
+        if rating < -1:
+            rating = -1
 
         if not description:
             description = ""
@@ -93,7 +99,7 @@ def update(id):
     movie = get_movie(id)
     if request.method == "POST":
         title = request.form["title"]
-        rating = request.form["rating"]
+        rating = request.form["option-rating"]
         description = request.form["description"]
         image = None
         error = None
@@ -102,9 +108,16 @@ def update(id):
             error = "Movie title required"
 
         if not rating.isdigit():
+            print("ERROR: rating is not a digit: ", rating)
             rating = -1
         else:
             rating = int(rating)
+
+        # make sure value is in range [-1, 5]
+        if rating > 5:
+            rating = 5
+        if rating < -1:
+            rating = -1
 
         if "image" in request.files:
             image = request.files["image"]
