@@ -6,10 +6,15 @@
 {% block content %}
 {% for movie in movies %}
 <div class="card">
-	<div class="row g-0">
-		<div class="col-md-2 bg-primary-subtle">
-			<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}" class="img-fluid rounded-start"
-				style="max-height: 100%;">
+	<div class="row g-0" style="height: 200px;">
+		<div class="col-md-2 bg-primary-subtle" style="height: 200px;">
+			{% if movie['image'] %}
+			<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}"
+				class="img-fluid rounded-start object-fit-scale" style="max-height: 100%;">
+			{% else %}
+			<img src="{{ url_for('static', filename='images/empty.jpg') }}"
+				class="img-fluid rounded-start object-fit-cover">
+			{% endif %}
 		</div>
 		<div class="col-md-8">
 			<div class="card-header">
@@ -22,7 +27,7 @@
 					{{ movie['description']|markdown}}
 				</div>
 			</div>
-			<ul class="list-group list-group-flush d-flex align-content-end">
+			<ul class="list-group list-group-flush mt-auto position-absolute bottom-0">
 				<li class="list-group-item">
 					<a class="card-link" href="{{url_for('movie.delete', id=movie['id']) }}" method="post"
 						onclick="return confirm('Are you sure?');">

@@ -67,9 +67,7 @@ def add():
 
             image_filename = check_image(image, save=True)
 
-            if image_filename == "":
-                movie.id_image = get_default_image_id()
-            else:
+            if image_filename != "":
                 new_image = Image()
                 new_image.filename = image_filename
 

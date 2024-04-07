@@ -8,5 +8,10 @@
 <a href="{{url_for('movie.update', id=movie['id']) }}">Edit</a>
 <p>Rating: {% if movie['rating'] < 0 %} N/A {% else %} {{ movie['rating'] }}/10 {% endif %} </p>
 		<div>{{movie['description']|markdown}}</div>
-		<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}"></img>
+		{% if movie['image'] %}
+		<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}">
+		{% else %}
+		<img src="{{ url_for('static', filename='images/empty.jpg') }}" class="img-fluid rounded-start"
+			style="max-height: 100%;">
+		{% endif %}
 		{% endblock %}
