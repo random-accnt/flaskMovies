@@ -6,12 +6,20 @@
 
 {% block content %}
 <a href="{{url_for('movie.update', id=movie['id']) }}">Edit</a>
-<p>Rating: {% if movie['rating'] < 0 %} N/A {% else %} {{ movie['rating'] }}/10 {% endif %} </p>
-		<div>{{movie['description']|markdown}}</div>
-		{% if movie['image'] %}
-		<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}">
-		{% else %}
-		<img src="{{ url_for('static', filename='images/empty.jpg') }}" class="img-fluid rounded-start"
-			style="max-height: 100%;">
-		{% endif %}
-		{% endblock %}
+<div class="clearfix">
+	<div class="col-md-6 float-md-end ms-3">
+		<div class="mb-3">
+			{% if movie['image'] %}
+			<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}">
+			{% else %}
+			<img src="{{ url_for('static', filename='images/empty.jpg') }}" class="img-fluid rounded-start"
+				style="max-height: 100%;">
+			{% endif %}
+		</div>
+		<p>Rating: {% if movie['rating'] < 0 %} N/A {% else %} {{ movie['rating'] }}/10 {% endif %} </p>
+	</div>
+
+	<h2>Description</h2>
+	<div>{{movie['description']|markdown}}</div>
+</div>
+{% endblock %}
