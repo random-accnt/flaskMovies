@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Add movie{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form enctype="multipart/form-data" method="post">
+	<div class="mb-3">
+		<label for="title" class="form-label">Title</label>
+		<input name="title" id="title" class="form-control" required>
+	</div>
+	<div class="mb-3">
+		<label for="rating" class="form-label">Rating</label>
+		<input name="rating" id="rating" class="form-control" value="N/A">
+	</div>
+	<div class="mb-3">
+		<label for="description" class="form-label">Description</label>
+		<textarea name="description" id="description" class="form-control" rows="10"></textarea>
+	</div>
+	<div class="mb-3">
+		<label for="image" class="form-label">Image</label>
+		<input type="file" name="image">
+	</div>
+	<input class="btn btn-primary" type="submit" value="Add movie">
+</form>
+{% endblock %}

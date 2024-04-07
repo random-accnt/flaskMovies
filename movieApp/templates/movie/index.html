@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Movies{% endblock %}</h1>
+{% endblock %}
+{% block content %}
+{% for movie in movies %}
+<div class="card">
+	<div class="row g-0">
+		<div class="col-md-2 bg-primary-subtle">
+			<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}" class="img-fluid rounded-start"
+				style="max-height: 100%;">
+		</div>
+		<div class="col-md-8">
+			<div class="card-header">
+				<a href=" {{ url_for('movie.single_movie', movie_id=movie['id']) }}">
+					<h2>{{ movie['title'] }}</h2>
+				</a>
+			</div>
+			<div class="card-body">
+				<div>
+					{{ movie['description']|markdown}}
+				</div>
+			</div>
+			<ul class="list-group list-group-flush d-flex align-content-end">
+				<li class="list-group-item">
+					<a class="card-link" href="{{url_for('movie.delete', id=movie['id']) }}" method="post"
+						onclick="return confirm('Are you sure?');">
+						Delete
+					</a>
+					<a class="card-link" href="{{url_for('movie.update', id=movie['id']) }}" method="get">
+						Edit
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<br>
+{% endfor %}
+{% endblock %}

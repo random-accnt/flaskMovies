@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Edit movie: "{{ movie['title']}}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form enctype="multipart/form-data" method="post">
+	<div class="row g-0 text-center">
+		<div class="col-sm-6 col-md-8">
+			<div class="mb-3">
+				<label for="title" class="form-label">Title</label>
+				<input name="title" id="title" class="form-control" value="{{ request.form['title'] or movie['title']}}"
+					required>
+			</div>
+
+			<div class="mb-3">
+				<label for="rating" class="form-label">Rating</label>
+				<input name="rating" id="rating" class="form-control" value={% if movie['rating'] < 0 %} "N/A" {% else
+					%} "{{movie['rating']}}" {% endif %}>
+			</div>
+		</div>
+		<div class="col-6 col-md-4">
+			<div class="mb-3">
+				<img width="200" height="200" src="{{ url_for('serve_image', filename=movie['image']['filename']) }}"
+					class="img-thumbnail"></img>
+				<br>
+				<label for="image" class="form-label">New image</label>
+				<input type="file" name="image">
+			</div>
+		</div>
+	</div>
+	<div class="mb-3">
+		<label for="description" class="form-label">Description</label>
+		<textarea type="text" name="description" id="description" rows="10" class="form-control">{{ movie["description"]
+			}}</textarea>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}

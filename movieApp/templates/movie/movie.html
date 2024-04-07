@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{{ movie['title'] }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<a href="{{url_for('movie.update', id=movie['id']) }}">Edit</a>
+<p>Rating: {% if movie['rating'] < 0 %} N/A {% else %} {{ movie['rating'] }}/10 {% endif %} </p>
+		<div>{{movie['description']|markdown}}</div>
+		<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}"></img>
+		{% endblock %}
