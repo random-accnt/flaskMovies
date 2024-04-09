@@ -8,11 +8,11 @@
 <a href="{{url_for('movie.update', id=movie['id']) }}">Edit</a>
 <div class="clearfix">
 	<div class="col-md-6 float-md-end ms-3">
-		<div class="mb-3">
+		<div class="mb-3 overflow-x-hidden" style="text-align: center">
 			{% if movie['image'] %}
-			<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}" class="w-100">
+			<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}" style="max-height: 300px;">
 			{% else %}
-			<img src="{{ url_for('static', filename='images/empty.jpg') }}" class="w-100" style="max-height: 100%;">
+			<img src="{{ url_for('static', filename='images/empty.jpg') }}" style="max-height: 300px;">
 			{% endif %}
 		</div>
 		<p>Rating: {% if movie['rating'] < 0 %} N/A {% else %} {{ movie['rating'] }}/5 {% endif %} </p>
