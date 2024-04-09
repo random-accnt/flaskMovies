@@ -6,8 +6,8 @@
 {% block content %}
 {% for movie in movies %}
 <div class="card">
-	<div class="row g-0" style="height: 200px;">
-		<div class="col-md-2 bg-primary-subtle" style="height: 200px;">
+	<div class="row" style="height: 200px;">
+		<div class="col-2 bg-primary-subtle p-0" style="height: 200px; width: 20%;">
 			{% if movie['image'] %}
 			<img src="{{ url_for('serve_image', filename=movie['image']['filename']) }}"
 				class="img-fluid rounded-start object-fit-scale" style="max-height: 100%;">
@@ -16,7 +16,7 @@
 				class="img-fluid rounded-start object-fit-cover">
 			{% endif %}
 		</div>
-		<div class="col-md-10">
+		<div class="col-md-10" style="width: 80%;">
 			<div class="card-header">
 				<a href=" {{ url_for('movie.single_movie', movie_id=movie['id']) }}">
 					<h2>{{ movie['title'] }}</h2>
