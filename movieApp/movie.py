@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 from movieApp import db
 from movieApp.db import Image, Movie, get_default_image_id
-from movieApp.util import is_allowed_img, rowsToDict, rowToDict
+from movieApp.util import is_allowed_img, parse_ratings, rowsToDict, rowToDict
 
 PREV_URL_KEY = "prev_url"
 
@@ -30,8 +30,11 @@ def index():
 @bp.route("/<int:movie_id>")
 def single_movie(movie_id):
     movie = get_movie(movie_id)
-    session[PREV_URL_KEY] = url_for("movie.single_movie", movie_id=movie_id)
-    return render_template("movie/movie.html", movie=movie)
+    positives = parse_ratings(movie.positives)
+    negatives = parse_ratings(movie.negatives)
+
+    session[PREV_URL_KEY] = url_for("movie.single_movie", movie_id=movie_id )
+    return render_template("movie/movie.html", movie=movie, positives=positives, negatives=negatives)
 
 
 @bp.route("/add", methods=("GET", "POST"))

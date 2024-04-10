@@ -13,3 +13,14 @@ def is_allowed_img(filename: str):
     return (
         "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMG_EXTENSIONS
     )
+
+
+def parse_ratings(ratings: str) -> list[str]:
+    if ratings is None:
+        return []
+
+    result = []
+    for val in ratings.rsplit("^-"):
+        result.append(val.strip())
+
+    return result

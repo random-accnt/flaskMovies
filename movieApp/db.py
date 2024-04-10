@@ -17,6 +17,8 @@ class Movie(db.Model):
     description: Mapped[str]
     rating: Mapped[Optional[int]]
     createdAt: Mapped[datetime] = mapped_column(default=func.current_timestamp())
+    positives: Mapped[Optional[str]] = mapped_column(insert_default="", default=None)
+    negatives: Mapped[Optional[str]] = mapped_column(insert_default="", default=None)
     id_image: Mapped[Optional[int]] = mapped_column(ForeignKey("image_table.id"))
     image: Mapped["Image"] = relationship()
 
