@@ -21,4 +21,24 @@
 	<h2>Description</h2>
 	<div>{{movie['description']|markdown}}</div>
 </div>
+
+<h2 class="text-center">Rating</h2>
+<div class="row">
+	<div class="col">
+		<div class="text-center">
+			<h3>Positives</h3>
+		</div>
+		{% for item in positives %}
+		<p>{{ item }}</p>
+		{% endfor %}
+	</div>
+	<div class="col">
+		<div class="text-center">
+			<h3>Negatives</h3>
+		</div>
+		{% for item in negatives %}
+		<p>{{ item }}</p>
+		{% endfor %}
+	</div>
+</div>
 {% endblock %}
