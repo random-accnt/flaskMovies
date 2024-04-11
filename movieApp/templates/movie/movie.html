@@ -15,30 +15,25 @@
 			<img src="{{ url_for('static', filename='images/empty.jpg') }}" style="max-height: 300px;">
 			{% endif %}
 		</div>
-		<p>Rating: {% if movie['rating'] < 0 %} N/A {% else %} {{ movie['rating'] }}/5 {% endif %} </p>
+		<p>Rating: {% if movie['rating'] < 0 %} N/A {% else %} {{ movie['rating'] }}/5 {% endif %}</p>
 	</div>
 
 	<h2>Description</h2>
 	<div>{{movie['description']|markdown}}</div>
 </div>
 
-<h2 class="text-center">Rating</h2>
+<h2 class="text-center">Review</h2>
+<hr>
 <div class="row">
 	<div class="col">
-		<div class="text-center">
-			<h3>Positives</h3>
-		</div>
-		{% for item in positives %}
-		<p>{{ item }}</p>
-		{% endfor %}
+		{% with title="Positives", color="border-success", items=positives %}
+		{% include "movie/item_list.html" %}
+		{% endwith %}
 	</div>
 	<div class="col">
-		<div class="text-center">
-			<h3>Negatives</h3>
-		</div>
-		{% for item in negatives %}
-		<p>{{ item }}</p>
-		{% endfor %}
+		{% with title="Negatives", color="border-danger", items=negatives %}
+		{% include "movie/item_list.html" %}
+		{% endwith %}
 	</div>
 </div>
 {% endblock %}

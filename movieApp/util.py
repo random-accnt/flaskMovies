@@ -31,7 +31,7 @@ def parse_ratings(ratings: str) -> list[str]:
             if len(current) == 0:
                 current.append(line[1:].strip())
             else:
-                result.append("/n".join(current))
+                result.append("\n".join(current))
                 current = [
                     line[1:].strip(),
                 ]
@@ -41,6 +41,6 @@ def parse_ratings(ratings: str) -> list[str]:
                 current.append(line.strip())
 
     if len(current) > 0:
-        result.append("/n".join(current))
+        result.append("\n".join(current))
 
     return result
