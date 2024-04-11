@@ -1,0 +1,10 @@
+<div class="text-center">
+	<h3>{{ title }}</h3>
+</div>
+<ul class="list-group list-group-numbered">
+	{% for item in items %}
+	<li class="list-group-item {{color}} d-flex">
+		<div class="ms-2 me-auto" style="white-space: pre;">{{ item }}</div>
+	</li>
+	{% endfor %}
+</ul>

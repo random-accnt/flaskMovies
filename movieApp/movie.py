@@ -2,13 +2,11 @@ import os
 
 from flask import (Blueprint, current_app, flash, g, redirect, render_template,
                    request, session, url_for)
-from sqlalchemy import desc, insert
-from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
 
 from movieApp import db
-from movieApp.db import Image, Movie, get_default_image_id
-from movieApp.util import is_allowed_img, rowsToDict, rowToDict
+from movieApp.db import Image, Movie
+from movieApp.util import is_allowed_img, parse_ratings
 
 PREV_URL_KEY = "prev_url"
 
@@ -30,8 +28,11 @@ def index():
 @bp.route("/<int:movie_id>")
 def single_movie(movie_id):
     movie = get_movie(movie_id)
-    session[PREV_URL_KEY] = url_for("movie.single_movie", movie_id=movie_id)
-    return render_template("movie/movie.html", movie=movie)
+    positives = parse_ratings(movie.positives if movie.positives else "")
+    negatives = parse_ratings(movie.negatives if movie.negatives else "")
+
+    session[PREV_URL_KEY] = url_for("movie.single_movie", movie_id=movie_id )
+    return render_template("movie/movie.html", movie=movie, positives=positives, negatives=negatives)
 
 
 @bp.route("/add", methods=("GET", "POST"))
@@ -39,8 +40,11 @@ def add():
     if request.method == "POST":
         title = request.form["title"]
         rating = request.form["option-rating"]
-        description = request.form["description"]
+        description = request.form["description"] if request.form["description"] else ""
+        positives = request.form["positives"] if request.form["positives"] else ""
+        negatives = request.form["negatives"] if request.form["negatives"] else ""
         image = None
+
 
         error = None
 
@@ -58,9 +62,6 @@ def add():
         if rating < -1:
             rating = -1
 
-        if not description:
-            description = ""
-
         if "image" in request.files:
             image = request.files["image"]
 
@@ -69,6 +70,8 @@ def add():
             movie.title = title
             movie.rating = rating
             movie.description = description
+            movie.positives = positives
+            movie.negatives = negatives
 
 
             image_filename = check_image(image, save=True)
@@ -101,6 +104,8 @@ def update(id):
         title = request.form["title"]
         rating = request.form["option-rating"]
         description = request.form["description"]
+        positives = request.form["positives"] if request.form["positives"] else ""
+        negatives = request.form["negatives"] if request.form["negatives"] else ""
         image = None
         error = None
 
@@ -137,6 +142,8 @@ def update(id):
             movie.title = title
             movie.rating = rating
             movie.description = description
+            movie.positives = positives
+            movie.negatives = negatives
             db.session.commit()
 
             return redirect(session[PREV_URL_KEY])
