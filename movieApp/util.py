@@ -1,6 +1,7 @@
 from sqlalchemy.event import contains
 
 from movieApp import ALLOWED_IMG_EXTENSIONS
+from movieApp.db import Movie
 
 
 def rowsToDict(rows):
@@ -17,7 +18,7 @@ def is_allowed_img(filename: str):
     )
 
 
-def parse_ratings(ratings: str) -> list[str]:
+def parse_reviews(ratings: (str | None)) -> list[str]:
     if ratings is None:
         return []
 
