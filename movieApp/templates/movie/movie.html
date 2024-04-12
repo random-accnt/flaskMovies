@@ -25,15 +25,16 @@
 <h2 class="text-center">Review</h2>
 <hr>
 <div class="row">
-	<div class="col">
-		{% with title="Positives", color="border-success", items=positives %}
-		{% include "movie/item_list.html" %}
-		{% endwith %}
-	</div>
-	<div class="col">
-		{% with title="Negatives", color="border-danger", items=negatives %}
-		{% include "movie/item_list.html" %}
-		{% endwith %}
-	</div>
+	{% with id="pos-and-form", title="Positives", color="border-success", items=positives,
+	post_url=url_for('movie.update_vars',
+	id=movie['id'], variable="positives") %}
+	{% include "movie/item_list.html" %}
+	{% endwith %}
+
+	{% with id="neg-and-form", title="Negatives", color="border-danger", items=negatives,
+	post_url=url_for('movie.update_vars',
+	id=movie['id'], variable="negatives") %}
+	{% include "movie/item_list.html" %}
+	{% endwith %}
 </div>
 {% endblock %}

@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 
 from movieApp import db
 from movieApp.db import Image, Movie
-from movieApp.util import is_allowed_img, parse_ratings
+from movieApp.util import is_allowed_img, parse_reviews
 
 PREV_URL_KEY = "prev_url"
 
@@ -28,8 +28,8 @@ def index():
 @bp.route("/<int:movie_id>")
 def single_movie(movie_id):
     movie = get_movie(movie_id)
-    positives = parse_ratings(movie.positives if movie.positives else "")
-    negatives = parse_ratings(movie.negatives if movie.negatives else "")
+    positives = parse_reviews(movie.positives if movie.positives else "")
+    negatives = parse_reviews(movie.negatives if movie.negatives else "")
 
     session[PREV_URL_KEY] = url_for("movie.single_movie", movie_id=movie_id )
     return render_template("movie/movie.html", movie=movie, positives=positives, negatives=negatives)
@@ -159,6 +159,21 @@ def delete(id):
     db.session.commit()
     return redirect(url_for("movie.index"))
 
+@bp.route("/<int:id>/update_vars/<variable>", methods=['POST',])
+def update_vars(id, variable):
+    movie = get_movie(id)
+    text = request.form.get("new_value")
+    if text:
+        if variable == "positives":
+            movie.positives = f"{movie.positives}\n- {text}" if movie.positives else f"- {text}"
+            db.session.commit()
+            return render_template('movie/item_list.html', id="pos-and-form", title="Positives", color="border-success", items=parse_reviews(movie.positives), post_url=url_for('movie.update_vars', id=movie.id, variable="positives"))
+        elif variable == "negatives":
+            movie.negatives = f"{movie.negatives}\n- {text}" if movie.negatives else f"- {text}"
+            db.session.commit()
+            return render_template('movie/item_list.html', id="neg-and-form", title="Negatives", color="border-danger", items=parse_reviews(movie.negatives), post_url=url_for('movie.update_vars', id=movie.id, variable="negatives"))
+
+    return ""
 
 def get_movie(id):
     movie = db.get_or_404(Movie, id)

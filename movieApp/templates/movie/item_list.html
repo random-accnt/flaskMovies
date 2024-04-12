@@ -1,10 +1,24 @@
-<div class="text-center">
-	<h3>{{ title }}</h3>
+<div id={{ id }} class="col">
+	<div class="text-center">
+		<h3>{{ title }}</h3>
+	</div>
+	<ul id="{{ list_id }}" class="list-group list-group-numbered">
+		{% for item in items %}
+		<li class="list-group-item {{color}} d-flex">
+			<div class="ms-2 me-auto" style="white-space: pre;">{{ item }}</div>
+		</li>
+		{% endfor %}
+	</ul>
+	<div class="dropdown">
+		<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+			data-bs-auto-close="outside">
+			Add
+		</button>
+		<form class="dropdown-menu" hx-post={{ post_url }} hx-target="#{{ id }}">
+			<div class="mb-3">
+				<textarea name="new_value" required></textarea>
+			</div>
+			<button class="btn btn-primary" type="submit">Save</button>
+		</form>
+	</div>
 </div>
-<ul class="list-group list-group-numbered">
-	{% for item in items %}
-	<li class="list-group-item {{color}} d-flex">
-		<div class="ms-2 me-auto" style="white-space: pre;">{{ item }}</div>
-	</li>
-	{% endfor %}
-</ul>
