@@ -9,8 +9,10 @@ from sqlalchemy.orm import DeclarativeBase
 
 ALLOWED_IMG_EXTENSIONS = {"png", "jpg", "jpeg"}
 
+
 class Base(DeclarativeBase):
     pass
+
 
 db = SQLAlchemy(model_class=Base)
 migrate = Migrate()
@@ -21,7 +23,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY="dev",
         SQLALCHEMY_DATABASE_URI="sqlite:///movies.sqlite",
-        IMAGE_DIR="uploads/img"
+        IMAGE_DIR="uploads/img",
     )
 
     app.config["DEFAULT_IMAGE"] = "empty.jpg"
@@ -46,7 +48,7 @@ def create_app(test_config=None):
 
     @app.route("/uploads/img/<path:filename>")
     def serve_image(filename):
-        filedir = os.path.join(app.instance_path, app.config["IMAGE_DIR"] )
+        filedir = os.path.join(app.instance_path, app.config["IMAGE_DIR"])
         return send_from_directory(filedir, filename)
 
     from . import movie
@@ -54,4 +56,3 @@ def create_app(test_config=None):
     app.register_blueprint(movie.bp)
 
     return app
-
